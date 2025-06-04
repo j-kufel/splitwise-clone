@@ -21,6 +21,8 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Optional;
+
 @WebMvcTest(controllers = { GroupController.class, ExpenseController.class })
 @Import(SecurityConfig.class)
 public class RoleBasedAccessIT {
@@ -46,7 +48,7 @@ public class RoleBasedAccessIT {
     group.setId(1L);
     group.setCreatedBy(user);
 
-    when(userService.findByEmail("user@example.com")).thenReturn(user);
+    when(userService.findByEmail("user@example.com")).thenReturn(Optional.of(user));
     when(groupService.getGroupById(1L)).thenReturn(group);
     doNothing().when(groupService).deleteGroup(1L);
 
@@ -66,7 +68,7 @@ public class RoleBasedAccessIT {
     group.setId(1L);
     group.setCreatedBy(otherUser);
 
-    when(userService.findByEmail("user@example.com")).thenReturn(user);
+    when(userService.findByEmail("user@example.com")).thenReturn(Optional.of(user));
     when(groupService.getGroupById(1L)).thenReturn(group);
 
     mockMvc.perform(delete("/api/groups/1"))
@@ -81,7 +83,7 @@ public class RoleBasedAccessIT {
     Group group = new Group();
     group.setId(1L);
 
-    when(userService.findByEmail("admin@example.com")).thenReturn(admin);
+    when(userService.findByEmail("admin@example.com")).thenReturn(Optional.of(admin));
     when(groupService.getGroupById(1L)).thenReturn(group);
     doNothing().when(groupService).deleteGroup(1L);
 
@@ -98,7 +100,7 @@ public class RoleBasedAccessIT {
     expense.setId(1L);
     expense.setCreatedBy(user);
 
-    when(userService.findByEmail("user@example.com")).thenReturn(user);
+    when(userService.findByEmail("user@example.com")).thenReturn(Optional.of(user));
     when(expenseService.getExpense(1L)).thenReturn(expense);
     doNothing().when(expenseService).deleteExpense(1L);
 
@@ -118,7 +120,7 @@ public class RoleBasedAccessIT {
     expense.setId(1L);
     expense.setCreatedBy(otherUser);
 
-    when(userService.findByEmail("user@example.com")).thenReturn(user);
+    when(userService.findByEmail("user@example.com")).thenReturn(Optional.of(user));
     when(expenseService.getExpense(1L)).thenReturn(expense);
 
     mockMvc.perform(delete("/api/expenses/1"))
@@ -133,7 +135,7 @@ public class RoleBasedAccessIT {
     Expense expense = new Expense();
     expense.setId(1L);
 
-    when(userService.findByEmail("admin@example.com")).thenReturn(admin);
+    when(userService.findByEmail("admin@example.com")).thenReturn(Optional.of(admin));
     when(expenseService.getExpense(1L)).thenReturn(expense);
     doNothing().when(expenseService).deleteExpense(1L);
 

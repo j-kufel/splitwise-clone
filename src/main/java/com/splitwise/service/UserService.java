@@ -3,6 +3,9 @@ package com.splitwise.service;
 import com.splitwise.Role;
 import com.splitwise.model.User;
 import com.splitwise.repository.UserRepository;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,9 +47,12 @@ public class UserService {
     return user;
   }
 
-  public User findByEmail(String email) {
-    return userRepository.findByEmail(email)
-        .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+  public Optional<User> findByEmail(String email) {
+    return userRepository.findByEmail(email);
   }
+
+  public User saveUser(User user) {
+    return userRepository.save(user);
+}
 
 }

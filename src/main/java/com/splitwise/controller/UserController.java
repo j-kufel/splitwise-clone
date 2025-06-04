@@ -16,7 +16,6 @@ public class UserController {
     
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        // Set default role to USER
         user.setRole(Role.USER);
         return ResponseEntity.ok(userService.createUser(user));
     }
